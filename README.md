@@ -8,6 +8,12 @@ I made a light-proof cover for the meter. It has a hinge so the meter-reader can
 I need to work on the mechanics/circuit to filter out the sun. I know it can be done because
 the commercial reader device does it.
 
+## My public adafruit.io feed
+
+The Pi reports the number of pulses counted every 10 seconds. 
+
+https://io.adafruit.com/topher_cantrell/feeds/power-monitor
+
 ## Links
 
 Good general discussion:<br>
