@@ -4,30 +4,16 @@ import RPi.GPIO as GPIO
 import time      
 import threading 
 
-# This file is not checked in. It is a simple KEY = VALUS module that contains the
+# This file is not checked in. It is a simple KEY = VALUE module that contains the
 # secret key needed to post data to my adafruit.io feed. It looks like this:
 #
 # AIO = 'blahblahblah'
 #
 import credentials # Not checked in ... simple KEY = VALUE module
 
-# My adafruit.io feed URL
-FEED = 'https://io.adafruit.com/api/v2/topher_cantrell/feeds/power-monitor/data'
+import adafruit_io
 
-post_headers = {
-    'X-AIO-Key': credentials.AIO, 
-    'Content-Type':'application/json'
-}
-
-def store_count(cnt):
-    ''' Post the pulse count to my adafruit.io feed
-    '''
-    data = {'value' : cnt}
-    d = json.dumps(data).encode()
-    req = urllib.request.Request(url=FEED,headers=post_headers,method='POST',data=d)
-    f = urllib.request.urlopen(req)
-    ret =  json.loads(f.read().decode())
-    return ret
+io = adafruit_io.AdafruitIO('topher_cantrell',credentials.AIO)
 
 # Count of pulses over time interval
 current_pulse_count = 0
@@ -51,7 +37,7 @@ while True:
     with lock:
         x = current_pulse_count
         current_pulse_count = 0
-    print('Count '+str(x))
-    store_count(x)
-        
+    #print('Count '+str(x))
+    io.add_data_retry('power-monitor',x)
+            
         
